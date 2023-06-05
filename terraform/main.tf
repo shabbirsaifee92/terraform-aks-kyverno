@@ -33,7 +33,7 @@ resource "azurerm_kubernetes_cluster" "main" {
 resource "azurerm_kubernetes_cluster_node_pool" "spot" {
   name                  = "spotnp"
   kubernetes_cluster_id = azurerm_kubernetes_cluster.main.id
-  vm_size               = "Standard_D4as_v4"
+  vm_size               = "Standard_D2as_v4"
   enable_auto_scaling   = true
   priority              = "Spot"
   spot_max_price        = -1
