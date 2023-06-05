@@ -12,7 +12,7 @@ resource "azurerm_kubernetes_cluster" "main" {
   default_node_pool {
     name                = "default"
     node_count          = 1
-    vm_size             = "Standard_D2_v2"
+    vm_size             = "Standard_D4as_v4"
     enable_auto_scaling = true
   }
 
@@ -24,6 +24,26 @@ resource "azurerm_kubernetes_cluster" "main" {
   }
 
   tags = {
-    Environment = "Production"
+    Environment = "testing"
+  }
+}
+
+resource "azurerm_kubernetes_cluster_node_pool" "spot" {
+  name                  = "spotnp"
+  kubernetes_cluster_id = azurerm_kubernetes_cluster.main.id
+  vm_size               = "Standard_D4as_v4"
+  enable_auto_scaling   = true
+  priority              = "Spot"
+  spot_max_price        = -1
+  min_count             = 1
+  node_count            = 1
+  eviction_policy       = "Delete"
+  node_taints           = ["kubernetes.azure.com/scalesetpriority=spot:NoSchedule"]
+
+  lifecycle {
+    ignore_changes = [node_count]
+  }
+  tags = {
+    Environment = "testing"
   }
 }
