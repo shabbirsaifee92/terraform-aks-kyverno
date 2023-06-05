@@ -14,6 +14,7 @@ resource "azurerm_kubernetes_cluster" "main" {
     node_count          = 1
     vm_size             = "Standard_D4as_v4"
     max_count           = 10
+    min_count           = 1
     enable_auto_scaling = true
   }
 
@@ -36,6 +37,7 @@ resource "azurerm_kubernetes_cluster_node_pool" "spot" {
   enable_auto_scaling   = true
   priority              = "Spot"
   spot_max_price        = -1
+  max_count             = 10
   min_count             = 1
   node_count            = 1
   eviction_policy       = "Delete"
